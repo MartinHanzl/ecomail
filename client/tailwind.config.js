@@ -3,6 +3,7 @@ export default {
   content: [
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
+    './components/**/*.{vue,js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -10,10 +11,6 @@ export default {
         primary: '#a6e61f',
         secondary: '#59bc1c',
         dark: '#3d942f',
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
       },
     },
   },
