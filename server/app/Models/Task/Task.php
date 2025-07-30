@@ -11,7 +11,11 @@ class Task extends Model
     protected $fillable = [
         'title',
         'priority',
-        'solved',
-        'solve_at',
+        'completed',
+        'due_date',
+    ];
+
+    protected $casts = [
+        'completed' => 'boolean'
     ];
 }

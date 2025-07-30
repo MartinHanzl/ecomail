@@ -7,6 +7,7 @@ use App\Http\Resources\Client\Task\TaskResource;
 use App\Models\Task\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +22,11 @@ class TaskController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Task::query();
+        $query = Task::query()
+            ->where('completed', false);
+
+        // order by priority
+        $query->orderByRaw("FIELD(priority, 'high', 'medium', 'low')");
 
         return Response::json(TaskResource::collection($query->get()), 200);
     }
@@ -34,8 +39,8 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'priority' => 'required|in:low,medium,high',
-            'solved' => 'boolean',
-            'solve_at' => 'nullable|date',
+            'completed' => 'boolean',
+            'due_date' => 'nullable|date',
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +58,11 @@ class TaskController extends Controller
         DB::beginTransaction();
         try {
             $task->fill($request->all());
+            if($request->has('due_date') && $request->get('due_date') !== null) {
+                $task->due_date = Carbon::format($request->get('due_date'));
+            } else {
+                $task->due_date = null; // Set to null if not provided
+            }
             $task->save();
 
             DB::commit();
