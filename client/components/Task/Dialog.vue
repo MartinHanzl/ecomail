@@ -17,7 +17,7 @@ const task = defineModel('task', {
   default: () => ({
     title: '',
     priority: 'medium',
-    dueDate: ''
+    due_date: ''
   })
 })
 
@@ -42,7 +42,7 @@ const emit = defineEmits(['saveTask']);
                     <div class="mt-2 space-y-4">
                       <BaseInput v-model="task.title" label="Název úkolu" name="title" />
                       <BaseSelect v-model="task.priority" label="Priorita" name="priority" />
-                      <BaseInput v-model="task.solve_at" label="Datum splnění" name="dueDate" type="date" />
+                      <BaseInput v-model="task.due_date" label="Datum splnění" name="dueDate" type="date" />
                     </div>
                   </div>
                 </div>

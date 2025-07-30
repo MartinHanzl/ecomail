@@ -25,8 +25,12 @@ function loadTasks() {
     });
 }
 
-function saveTask(task) {
-  fetch('http://localhost:8000/api/task', {
+function saveTask(task, complete = false) {
+  if (complete === true && task && task.id) {
+    task.completed = true;
+  }
+
+  fetch(complete && task && task.id ? `http://localhost:8000/api/task/${task.id}`: 'http://localhost:8000/api/task', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -40,7 +44,7 @@ function saveTask(task) {
       return response.json();
     })
     .then(data => {
-      toast("Úkol byl úspěšně uložen.", {
+      toast(complete ? "Úkol byl úspěšně uložen." : "Úkol byl dokončen. Super!", {
         autoClose: 5000,
         type: 'success',
       });
@@ -64,7 +68,7 @@ onMounted(() => {
       <BaseButton @click="isDialogOpen=true" class="mt-4">Přidat úkol</BaseButton>
       <TaskDialog v-model:open="isDialogOpen" @save-task="saveTask($event)"/>
       <div class="mt-8 space-y-4">
-        <TaskCard v-if="tasks && tasks.length > 0" v-for="task in tasks" :key="task.id" :task="task" />
+        <TaskCard v-if="tasks && tasks.length > 0" v-for="task in tasks" :key="task.id" :task="task" @mark-complete="saveTask($event, true)"/>
       </div>
     </div>
 </template>

@@ -59,7 +59,7 @@ class TaskController extends Controller
         try {
             $task->fill($request->all());
             if($request->has('due_date') && $request->get('due_date') !== null) {
-                $task->due_date = Carbon::format($request->get('due_date'));
+                $task->due_date = Carbon::parse($request->get('due_date'));
             } else {
                 $task->due_date = null; // Set to null if not provided
             }
