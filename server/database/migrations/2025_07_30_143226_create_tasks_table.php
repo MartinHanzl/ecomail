@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
-            $table->boolean('solved')->default(false);
+            $table->boolean('completed')->default(false);
             $table->timestamp('due_date')->nullable();
             $table->timestamps();
         });
