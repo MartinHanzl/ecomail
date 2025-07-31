@@ -12,6 +12,10 @@ export default {
         secondary: '#59bc1c',
         dark: '#3d942f',
       },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+      },
     },
   },
   plugins: [],
